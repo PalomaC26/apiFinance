@@ -21,19 +21,18 @@ const app = express(); // Inicializa uma nova aplicação Express
 
 //configurar o CORS e o bady-Parse
 
-//USar as rotas de transações para todas as rotas
-app.use('/api/transactions', transactionsRoutes);
-
 
 app.use(cors()); // Habilita o CORS para todas as rotas
 app.use(bodyParser.json()); // Configura o body-parser para analisar requisições JSON
 
+//USar as rotas de transações para todas as rotas
+app.use('/api/transactions', transactionsRoutes);
 
 
 //Rota inicial para testar o servidor
 
 app.get('/', (req, res) => {
-    res.send('Servidor está rodando na porta '); // Define uma rota inicial para testar o servidor
+    res.send(`Servidor está rodando na porta ${PORT}`); // Define uma rota inicial para testar o servidor
   });
 
 //Configurar o servidor para uma porta específica
