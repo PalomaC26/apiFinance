@@ -12,8 +12,10 @@ router.post('/', transactionsController.addTransaction);
 router.put('/:id', transactionsController.updateTransactionPut);
 
 //Definindo uma rota para atualizar uma transaçaõ existente(Substituição parcial)
-//router.patch('/:id', transactionsController.updateTransactionPatch);
+router.patch('/:id', transactionsController.updateTransactionPatch);
 
+//Definindo uma rota para atualizar uma transaçaõ existente(Substituição parcial)
+router.delete('/:id', transactionsController.deleteTransaction);
  
 
 // Exportando o roteador 
