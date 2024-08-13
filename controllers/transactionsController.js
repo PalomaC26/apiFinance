@@ -10,22 +10,58 @@ const getAllTransactions = (req, res) => {
  res.json(results); 
  }); 
 }; 
-// Função para adicionar uma nova transação 
+// Função para adicionar uma nova transação
+//verificação de Duplicidade 
 const addTransaction = (req, res) => { 
  const { date, amount, description, category, account, user_id } = req.body; 
+
+ //Verificar se a transação já existe
+
  db.query( 
- 'INSERT INTO transactions (date, amount, description, category, account, user_id) VALUES (?, ?, ?, ?, ?, ?)', 
- [date, amount, description, category, account, user_id], 
+ 'SELECT * FROM transactions  WHERE date=?  AND amount=? AND description=? AND category?= AND account=? AND user_id=? VALUES (?,?,?,?,?,?)', 
+ [date, amount, description, category, account, user_id],
  (err, results) => { 
  if (err) { 
- console.error('Erro ao adicionar transação:', err); 
- res.status(500).send('Erro ao adicionar transação'); 
- return; 
+   console.error('Erro ao adicionar transação:', err); 
+   res.status(500).send('Erro ao adicionar transação'); 
+   return; 
  } 
- res.status(201).send('Transação adicionada com sucesso'); 
- } 
- ); 
+
+if(results.length>0){
+//se a transação já existe
+ res.status(400).send('Transação duplicada')
+ }
+}
+ ) 
+
+ 
+
+
+//se a transação não existe - 
+ db.query(
+  'INSERT INTO transactions date, amount, description, category, account, user_id) VALUES (?,?,?,?,?,?)',
+    [date, amount, description, category, account, user_id, id],
+  (err, results) => {
+      if(err) {
+          console.error('Erro ao adicionar transação', err);
+          res.status(500).send('Erro ao adicionar transação');
+       return;
+      }
+   res.send('Transação atualizada com sucesso');
+  }
+);
 };
+
+
+
+
+
+
+
+
+
+
+
 
 //Função para atualizar uma transação existente (substituição completa)
 const updateTransactionPut = (req, res) => {
@@ -44,6 +80,11 @@ db.query(
 }
 );
 };
+
+
+
+
+
 
 //Função para atualizar uma transação existente (substituição parcial)
 const updateTransactionPatch = (req, res) => {
