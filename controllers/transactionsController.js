@@ -76,6 +76,15 @@ db.query(
         res.status(500).send('Erro ao adicionar transação');
      return;
     }
+
+   
+    // verifica se nenhuma linha foi afetada pela consulta
+    if(results.affectedRows===0){
+      res.status(404).send('Transação não encontrada');
+      return;
+    }
+
+
  res.send('Transação atualizada com sucesso');
 }
 );
@@ -108,6 +117,15 @@ for(const[key,value] of Object.entries(fields)) {
         res.status(500).send('Erro ao adicionar transação');
      return;
     }
+
+  
+    if(results.affectedRows===0){
+      res.status(500).send('Transação não encontrada');
+      return;
+    }
+
+
+
     res.send('Transação atualizada com sucesso');
 }
 );
@@ -125,6 +143,15 @@ const deleteTransaction = (req,res) => {
         res.status(500).send('Erro ao deletar transação');
      return;
     }
+
+
+    //verifca se nenhuma linha foi afetada pela consulta
+    if(results.affectedRows===0){
+      res.status(404).send('Transação não encontrada');
+      return;
+    }
+
+
     res.send('Transação Deletada com sucesso');
 }
 );
